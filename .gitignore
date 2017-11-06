@@ -9,6 +9,7 @@ error404/
 student/
 test/
 tmp/
+sample/
 __pycache__/
 
 

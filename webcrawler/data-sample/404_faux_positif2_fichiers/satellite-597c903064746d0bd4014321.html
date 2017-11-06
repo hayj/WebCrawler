@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body>
+    <script>
+      (function(){
+        function escapeForHtml(str){
+          if (!str) return str
+          return str
+            .replace(/\&/g, '&amp;')
+            .replace(/\</g, '&lt;')
+            .replace(/\>/g, '&gt;')
+            .replace(/\"/g, '&quot;')
+            .replace(/\'/g, '&#x27;')
+            .replace(/\//g, '&#x2F;')
+        }
+
+        var regexChars = /[.*+?^${}()|[\]\\]/g;
+        function escapeForRegex(str) {
+          return str.replace(regexChars, "\\$&");
+        }
+
+        function parseQueryString(){
+          var ret = {}, parts = location.search.substring(1).split('&');
+          for (var i = parts.length; i--;) {
+            var vardef = parts[i].split('='), varname = vardef[0], value = vardef[1];
+            ret[varname] = unescape(value);
+          }
+          return ret;
+        }
+
+        var queryParams = parseQueryString();
+
+        var markup = "<!-- Index Exchange Pixel for Google's EBDA -->\n<iframe width=\"0\" height=\"0\" frameborder=\"0\" scrolling=\"no\" src=\"https://js-sec.indexww.com/um/ixmatch.html\" style=\"display: none;\" marginheight=\"0\" marginwidth=\"0\"></iframe>\n<!-- End Index Exchange Pixel -->";
+
+        for (var name in queryParams){
+          var regex = new RegExp('%' + escapeForRegex(name) + '%', 'ig');
+          markup = markup.replace(regex, 
+            escapeForHtml(queryParams[name]));
+        }
+
+        document.write(markup)
+      })();
+    </script><!-- Index Exchange Pixel for Google's EBDA -->
+<iframe scrolling="no" src="https://js-sec.indexww.com/um/ixmatch.html" style="display: none;" marginheight="0" marginwidth="0" class="gjlbskuvtrojiulzvpoi" width="0" height="0" frameborder="0"></iframe>
+<!-- End Index Exchange Pixel -->
+  
+
+</body></html>

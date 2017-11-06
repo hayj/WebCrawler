@@ -1,0 +1,2 @@
+Bootstrapper.bindDOMLoaded(function(){var Bootstrapper=window["Bootstrapper"];var ensightenOptions=Bootstrapper.ensightenOptions;var _sf_async_config=window._sf_async_config=window._sf_async_config||{};_sf_async_config.uid=25745;_sf_async_config.domain="nydailynews.com";_sf_async_config.sections=nydnDO["0"].section;_sf_async_config.authors=nydnDO["0"].author;_sf_async_config.useCanonical=true;window._sf_endpt=(new Date).getTime();Bootstrapper.insertScript("//static.chartbeat.com/js/chartbeat.js")},
+2209459,504476);

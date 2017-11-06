@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  line-height: 1;
+  font-size: 6vw;
+  letter-spacing: -0.2px;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+html:hover .overlay,
+body:hover .overlay {
+  border-color: #fff;
+  opacity: 1.0;
+}
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.slide_animation {
+  transform: translateX(200%);
+  animation: slide-in 1s forwards;
+}
+@keyframes slide-in {
+  100% {
+    transform: translateX(0%);
+  }
+}
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.92;
+  border: solid 1px #000;
+  box-sizing: border-box;
+}
+.sec_timer {
+  position: absolute;
+  top: 78%;
+  left: 41%;
+  font-size: 90%;
+  color: #bbb;
+  opacity: 0.8;
+}
+.sec_timer b {
+  color: #fff;
+}
+.main {
+  cursor: pointer;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+.poster {
+  margin-right: 4.1%;
+  display: inline-block;
+  width: 36.8%;
+  height: 100%;
+  float: left;
+  position: relative;
+}
+.poster .poster_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  overflow: hidden;
+}
+.poster.hola_preview_playing,
+.poster.hola_preview_loading {
+  position: static;
+}
+.watermark_container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36.8%;
+  height: 100%;
+}
+.description {
+  display: inline-block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 54.1%;
+  max-height: 3.6em;
+  line-height: 1.2;
+  margin-top: 15px;
+  vertical-align: top;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  background-image: url(/svc/cdn/pub/img/playlist_close.png);
+  background-position: 0 0;
+}
+.close:hover {
+  background-position: -12px 0;
+}
+.clearfix {
+  clear: both;
+}
+.hola_preview_link_container {
+  font-size: 90%;
+}
+.hola_preview_link_container .hola_preview_container,
+.hola_preview_link_container .poster {
+  width: 45% !important;
+}
+.hola_preview_link_container .hola_preview_playing video {
+  width: 100% !important;
+}
+.hola_preview_link_container .description {
+  max-width: 45.9%;
+}
+.hola_preview_link_container .sec_timer {
+  left: 49.2%;
+}
+.hola_preview_link_container .hola_hint {
+  display: none;
+}

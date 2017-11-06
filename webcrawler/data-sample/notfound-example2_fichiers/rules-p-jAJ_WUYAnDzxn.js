@@ -1,0 +1,7 @@
+/*
+ Quantcast measurement tag
+ Copyright (c) 2008-2017, Quantcast Corp.
+*/
+(function(g,d,b){var h="twitter:title og:title title author authors article:author article:authors bt:author bt:authors sailthru.author sailthru.authors sailthru.title lv:author lv:authors lv:title".split(" ");d=function(d,a,f){a=document.getElementsByTagName("meta");for(var c,e,b=0;b<a.length;b++)if(c=a[b],e=c.getAttribute("name")||c.getAttribute("property"),e==f){e=c.getAttribute("content");a=c=a=void 0;b:{a=void 0;for(a=0;a<h.length;a++)if(h[a]===f){a=!1;break b}a=!0}if(e)if(a){c=e.split(",");
+for(a=0;a<c.length;a++)f=c,e=a,b=c[a].replace(/[^\w*]/g," ").replace(/^[\s\ufeff\xA0]+|[\s\ufeff\xA0]+$/g,""),f[e]=b;f=c}else f=e.replace(/[^\w*]/g," ");else f=e;d(f);return}d(!1)};b=function(b,a){var d=[],c;if("array"==={}.toString.call(a).match(/\s([a-zA-Z]+)/)[1].toLowerCase()){for(c=0;c<a.length;c++)d.push(b+"."+a[c]);return{labels:d.join(",")}}return{labels:b+"."+a}};__qc("rules",[g,null,[[b,"Article.Subsection"]],[[d,"exactmatch","article:subsection"]]],[g,null,[[b,"Article.Content Type"]],
+[[d,"exactmatch","article:content_type"]]],[g,null,[[b,"Article.Section"]],[[d,"exactmatch","article:section"]]],[g,null,[[b,"Author"]],[[d,"exactmatch","article:author_name"]]],[g,null,[[b,"Site Name"]],[[d,"exactmatch","og:site_name"]]],[g,null,[[b,"Article.Title"]],[[d,"exactmatch","og:title"]]],[g,null,[[b,"keywords"]],[[d,"exactmatch","keywords"]]])})("p-jAJ_WUYAnDzxn",window,document);

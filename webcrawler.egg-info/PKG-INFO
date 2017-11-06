@@ -1,0 +1,20 @@
+Metadata-Version: 1.1
+Name: webcrawler
+Version: 0.0.1
+Summary: UNKNOWN
+Home-page: UNKNOWN
+Author: hayj
+Author-email: hj@hayj.fr
+License: UNKNOWN
+Description-Content-Type: UNKNOWN
+Description: pew in webcrawler-venv pip install
+        https://github.com/misja/python-boilerpipe/zipball/master#egg=python-boilerpipe
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Development Status :: 1 - Planning
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Topic :: Utilities

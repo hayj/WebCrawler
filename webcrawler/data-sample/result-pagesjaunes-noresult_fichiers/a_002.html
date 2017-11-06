@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="a_data_003/main-pubiframe_24fd97.css">
+        <!--[if lt IE 9]>
+        <link rel="stylesheet" href="//static5.pagesjaunes.fr/annuaire/css/main-pubiframe-ie8_1d3858.css" />
+        <![endif]-->
+        <meta name="robots" content="noindex, follow">
+        <script type="text/javascript">
+            (function(ys) {
+                var $ = ys.$,
+                    cnscript = "pjstatspjscript"
+                    cnann = "pjstatsclicann"
+                ;
+                $(document)
+                    .ready(function(){
+                        $('#ptd').addClass('active place-reservee');
+                    }).on('click.' + cnscript, '[data-pjstats]:data(pjstats.pjscript)' + ':not(:data(' + cnscript + '_FOD))' + ':not(:data(pjstats.popin))' + ':not(:data(pjstats.swipe))' + ':not(:data(pjstats.gigya))' + ':not(:data(pjstats.ajax))', +':not(:data(pjstats.tuto))', function(e) {
+                        var $e = ys.$(this)
+                            , d = $e.data('pjstats') || {};
+                        ys.stats.evalScriptParam($e, d.pjscript);
+                        d.firstOnly && $e.data(cnscript + '_FOD', 1);
+                    }).on(
+                        'click.'+cnann+' mouseup.'+cnann,
+                        '[data-pjstats]:data(pjstats.genreBloc):not(:data('+cnann+'_FOD))', // FOD: First Only Done, see jira YELLSCRIPT-53 below
+                        function(e){
+                            // Jira YELLSCRIPT-3
+                            // On déporte le traitement stats dans une action pour pouvoir la lancer à la main
+                            // dans le cas ou un plugin JS stoppe la propagation d'event click jusqu'au document.
+                            ys.stats[cnann].testDo($(this), e);
+                    });
+                ;
+            })(parent.ys);
+        </script>
+    </head>
+    <body class="campagne-ptd">
+
+                    
+                                                                                                                                
+                    <div id="ad"><iframe scrolling="no" marginwidth="0" marginheight="0" src="a_data_002/20170709479061PTD0001.html" width="300" height="250" frameborder="0"></iframe></div>
+<a id="voile" target="_blank" href="http://www.belage.fr/" data-pjstats="{&quot;idTag&quot;:&quot;PTD-PAVE&quot;,&quot;idProduit&quot;:&quot;20170709479061PTD0001&quot;,&quot;genreBloc&quot;:&quot;8&quot;,&quot;pjscript&quot;:&quot;xt_click({},'C','2','LR::display::Campagne_Pub::PTD-PAVE','A');&quot;}" class="pj-link" title=" nouvelle fenêtre"></a>
+
+<script type="text/javascript">
+var html5Ad = document.getElementById("ad");
+
+if ((window.parent.Modernizr.svg)&&(window.parent.Modernizr.cssanimations)&&(window.parent.Modernizr.csstransitions)&&(window.parent.Modernizr.borderradius)) {
+    html5Ad.innerHTML = "<iframe width='300' height='250' scrolling='no' frameborder='0' marginwidth='0' marginheight='0' src='//staticps.pagesjaunes.fr/PTD/2017/07/09479061/20170709479061PTD0001/20170709479061PTD0001.html'></iframe>";
+} else {
+    html5Ad.innerHTML = "<a class='pjlien-block' href='http://www.belage.fr' data\x2Dpjstats\x3D\x27\x7B\x22idTag\x22\x3A\x22PTD\x2DPAVE\x22,\x22idProduit\x22\x3A\x2220170709479061PTD0001\x22,\x22genreBloc\x22\x3A\x228\x22,\x22pjscript\x22\x3A\x22xt_click\x28\x7B\x7D,\x26\x23039\x3BC\x26\x23039\x3B,\x26\x23039\x3B2\x26\x23039\x3B,\x26\x23039\x3BLR\x3A\x3Adisplay\x3A\x3ACampagne_Pub\x3A\x3APTD\x2DPAVE\x26\x23039\x3B,\x26\x23039\x3BA\x26\x23039\x3B\x29\x3B\x22\x7D\x27 target='_blank'><img src='//staticps.pagesjaunes.fr/PTD/2017/07/09479061/20170709479061PTD0001/20170709479061PTD0001_repli.jpg'></a>";
+}
+</script>
+
+        
+    
+    
+
+
+    </body></html>

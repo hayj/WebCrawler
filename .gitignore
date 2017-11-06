@@ -1,0 +1,13 @@
+TODO.txt
+./dist
+./webcrawler.*
+*.pyc
+*.json
+*.sh
+_trash
+error404
+student
+test
+tmp
+__pycache__
+

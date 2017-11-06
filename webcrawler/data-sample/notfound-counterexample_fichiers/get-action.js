@@ -1,0 +1,1 @@
+window._newsroom.push({"userId": "ec486660-9a94-4616-9622-66475afaddf9-tuct870aa2"});window._newsroom.push({"sendComscore": true});

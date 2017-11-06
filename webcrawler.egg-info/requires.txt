@@ -1,0 +1,11 @@
+flask
+selenium
+sh
+newspaper3k
+news-please
+readability-lxml
+html2text
+ipgetter
+hjsystemtools
+sklearn
+lxml

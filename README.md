@@ -1,0 +1,1 @@
+pew in webcrawler-venv pip install https://github.com/misja/python-boilerpipe/zipball/master#egg=python-boilerpipe

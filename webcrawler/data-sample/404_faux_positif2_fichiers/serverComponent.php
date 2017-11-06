@@ -1,0 +1,2 @@
+
+Bootstrapper._serverTime = '2017-11-03 14:48:57'; Bootstrapper._clientIP = '92.154.26.165'; var psj0 = 'http://nexus.ensighten.com/tronc/nydailynewsprod/code/a1aa184d0b9b2178cd6e5dc7477e191b.js?conditionId0=436248';Bootstrapper.loadScriptCallback(psj0, Bootstrapper.callOnPageSpecificCompletion);Bootstrapper.setPageSpecificDataDefinitionIds([])

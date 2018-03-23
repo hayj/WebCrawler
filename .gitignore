@@ -1,29 +1,22 @@
-TODO.txt
-./dist
-./webcrawler.*
-*.pyc
-*.json
-*.sh
-_trash/
-error404/
-student/
-test/
-tmp/
-sample/
-__pycache__/
-
-
+# Dirs:
 *.egg-info/
 build/
 dist/
+_trash/
+trash/
+
+# Misc files:
+*.sh
+!README.md
 TODO.md
+
+# Python
 *.pyc
+__pycache__/
+
+# Eclipse
 .directory
 .project
-
-**/workspacetest/
-
-
 .metadata
 bin/
 tmp/

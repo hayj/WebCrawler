@@ -1,12 +1,10 @@
-flask
 selenium
 sh
-https://github.com/misja/python-boilerpipe/zipball/master#egg=python-boilerpipe
-newspaper3k
-news-please
 readability-lxml
 html2text
 ipgetter
 hjsystemtools
+flask
 sklearn
 lxml
+psutil

@@ -109,15 +109,15 @@ setup(
     # url='https://',
 
     # You can choose what you want here : https://pypi.python.org/pypi?%3Aaction=list_classifiers
-    classifiers=[
-        "Programming Language :: Python",
-        "Development Status :: 1 - Planning",
-        "License :: OSI Approved :: MIT License",
-        "Natural Language :: English",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2.7",
-        "Topic :: Utilities",
-    ],
+    #classifiers=[
+        #"Programming Language :: Python",
+        #"Development Status :: 1 - Planning",
+        #"License :: OSI Approved :: MIT License",
+        #"Natural Language :: English",
+        #"Operating System :: OS Independent",
+        #"Programming Language :: Python :: 2.7",
+        #"Topic :: Utilities",
+    #],
 
     # If you want a command line like "do-something", on a specific funct of the package :
 #     entry_points = {

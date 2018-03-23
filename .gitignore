@@ -14,6 +14,9 @@ TODO.md
 *.pyc
 __pycache__/
 
+# hj specific
+**/wm-dist/*.json
+
 # Eclipse
 .directory
 .project

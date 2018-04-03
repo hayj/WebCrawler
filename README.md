@@ -118,7 +118,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 	def terminatedCallback(urlsFailedNotEnough, urlsFailedEnough):
 		global logger
 		for text, currentFailed in [("urlsFailedNotEnough", urlsFailedNotEnough),
-				("urlsFailedEnough", urlsFailedEnough)]:
+						("urlsFailedEnough", urlsFailedEnough)]:
 			currentFailedText = ""
 			for current in currentFailed:
 				currentFailedText += str(current.data) + "\n"

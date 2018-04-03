@@ -1,6 +1,6 @@
 # WebCrawler
 
-The `WebCrawler` exploit the [WebBrowser](https://github.com/hayj/WebBrowser/) lib (which use `Selenium` and `requests`) to crawl URLs in parallel. This lib is "callback oriented".
+The `WebCrawler` class exploit the [WebBrowser](https://github.com/hayj/WebBrowser/) lib (which use [*Selenium*](http://selenium-python.readthedocs.io/) and [*requests*](http://docs.python-requests.org/en/master/)) to crawl URLs in parallel. This lib is "callback oriented".
 
 ## Installation (Python 3)
 
@@ -9,21 +9,21 @@ The `WebCrawler` exploit the [WebBrowser](https://github.com/hayj/WebBrowser/) l
 
 ## Features
 
- * Use concurrency to request web pages in parallel with multiple `Selenium` instances.
+ * Use concurrency to request web pages in parallel with multiple *Selenium* instances.
  * Easy usage through callback functions (for events when the page is loaded, when an url failed...)
- * Auto page checking (take care of pages duplicates (with [DomainDuplicate](https://github.com/hayj/DomainDuplicate)) across pages of a same domain to detect "captcha pages" or invalid pages). It exploit all features of the [`WebBrowser`](https://github.com/hayj/WebBrowser) library.
- * Exploit *Selenium* (instead of `requests` for most crawler libraries like [Scrapy](https://scrapy.org/)). It makes it slower but we can execute javascript and use all *Selenium* features. *Chrome* and *PhantomJS* are both compatible.
- * Exploit also `requests` but normalize the generated data with the [WebBrowser](https://github.com/hayj/WebBrowser) library.
+ * Auto page checking (take care of pages duplicates (with [DomainDuplicate](https://github.com/hayj/DomainDuplicate)) across pages of a same domain to detect "captcha pages" or invalid pages). It exploit all features of the [WebBrowser](https://github.com/hayj/WebBrowser) library.
+ * Exploit *Selenium* (instead of *requests* for most crawler libraries like [Scrapy](https://scrapy.org/)). It makes it slower but we can execute javascript and use all *Selenium* features. *Chrome* and *PhantomJS* are both compatible.
+ * Exploit also *requests* but normalize the generated data with the [WebBrowser](https://github.com/hayj/WebBrowser) library.
  * Allows the use of several proxies.
  * Real time proxies scoring and selection.
  * Retry failed URLs a number of times.
  * Randomize the browser header and window size according to the used proxy.
- * Use the [`Multi-armed bandit`](https://en.wikipedia.org/wiki/Multi-armed_bandit) to automatically adjusts the settings.
- * Automatically kill dead Selenium process on Linux (Selenium is sometimes unstable).
+ * Use the [Multi-armed bandit](https://en.wikipedia.org/wiki/Multi-armed_bandit) to automatically adjusts the settings.
+ * Automatically kill dead *Selenium* process on Linux (*Selenium* is sometimes unstable).
 
 ## Disadvantages of classic crawling libraries
 
-Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit Selenium (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not "callback" oriented but "inheritance" oriented which can be hard in separating your scrapinp / indexing code from the crawler itself.
+Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit *Selenium* (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not "callback" oriented but "inheritance" oriented which can be hard in separating your scrapinp / indexing code from the crawler itself.
 
 ## Usage
 

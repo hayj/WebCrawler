@@ -57,8 +57,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 			url = data["html"]
 			status = data["status"]
 			# If the request succeeded, we store it in a database:
-			if status in [REQUEST_STATUS.success,
-							REQUEST_STATUS.timeoutWithContent]:
+			if status in [REQUEST_STATUS.success, REQUEST_STATUS.timeoutWithContent]:
 				addToTheDatabaserawl(data)
 			# Else if the request succeeded but we got a 404:
 			elif status in [REQUEST_STATUS.error404]:

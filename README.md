@@ -29,8 +29,7 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 ## Usage
 
 	>>> from webcrawler.crawler import *
-	>>> crawler = Crawler(["https://github.com/hayj/WebCrawler"],
-					crawlingCallback=crawlingCallback)
+	>>> crawler = Crawler(["https://github.com/hayj/WebCrawler"], crawlingCallback=crawlingCallback)
 	>>> crawler.start()
 
 

@@ -36,6 +36,18 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 	>>> crawler.start()
 
 
+## Main init parameters:
+
+ * **startUrls**: The first param is mandatory, it is a list of urls, or a generator (i.e. a function which yield urls) / iterator. Duplicates urls will automatically be skipped.
+ * **useHTTPBrowser**: Indicate the usage of an [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py).
+ * **httpBrowserParams**: This is a dict of args for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
+ * **maxRetryFailed**: The meximum number of retries the crawler has to do for failed urls.
+ * **banditRoundDuration**: The duration of a round for the bandit. At each round, the bandit will choose new params (explore or exploit).
+ * **proxies**: A list of proxies. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more information, section *Proxies*.
+ * **browsersDriverType**: Default is `DRIVER_TYPE.chrome`, see [WebBrowser](https://github.com/hayj/WebBrowser/) for more information (don't forget to set *Chrome* and *PhantomJS* driver in the `PATH` env var). Prefer *PhantomJS* to crawl with a lot of parallel browsers, it take less CPU, but is deprecated (it works with `selenium==3.8.0` and `phantomjs==2.1.1`).
+ * **browsersHeadless**: Boolean, choose headless or not for the Chrome driver.
+
+
 ## Callbacks
 
 Each callback functions has to be passed in init parameters like we saw above.
@@ -115,16 +127,6 @@ Each callback functions has to be passed in init parameters like we saw above.
 				currentFailedText += str(current.data) + "\n"
 			logInfo(text + ":\n" + currentFailedText, logger)
 
-## Main init parameters:
-
- * **startUrls**: The first param is mandatory, it is a list of urls, or a generator (i.e. a function which yield urls) / iterator. Duplicates urls will automatically be skipped.
- * **useHTTPBrowser**: Indicate the usage of an [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py).
- * **httpBrowserParams**: This is a dict of args for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
- * **maxRetryFailed**: The meximum number of retries the crawler has to do for failed urls.
- * **banditRoundDuration**: The duration of a round for the bandit. At each round, the bandit will choose new params (explore or exploit).
- * **proxies**: A list of proxies. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more information, section *Proxies*.
- * **browsersDriverType**: Default is `DRIVER_TYPE.chrome`, see [WebBrowser](https://github.com/hayj/WebBrowser/) for more information (don't forget to set *Chrome* and *PhantomJS* driver in the `PATH` env var). Prefer *PhantomJS* to crawl with a lot of parallel browsers, it take less CPU, but is deprecated (it works with `selenium==3.8.0` and `phantomjs==2.1.1`).
- * **browsersHeadless**: Boolean, choose headless or not for the Chrome driver.
 
 
 ## Multi-armed bandit parameters:
@@ -183,7 +185,7 @@ This class handle elements to crawl, basically URLs, but also piped messages (be
 
 ## Others
 
- * You can integrate [`HoneypotDetector`](https://github.com/hayj/HoneypotDetector) in your crawler.
+ * You can integrate [HoneypotDetector](https://github.com/hayj/HoneypotDetector) in your crawler.
 
 ## Complete example
 

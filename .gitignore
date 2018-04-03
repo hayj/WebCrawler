@@ -1,3 +1,14 @@
+
+
+**/sample
+
+data-sample/
+checkp*.py
+mongotest*.py
+webcrawlerapi*.py
+test/
+
+
 # Dirs:
 *.egg-info/
 build/

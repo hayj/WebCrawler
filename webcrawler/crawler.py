@@ -24,9 +24,10 @@ import ipgetter
 from threading import Thread, Lock, Semaphore, active_count, BoundedSemaphore
 import math
 import numpy
-from webcrawler.utils import *
-from webcrawler.browser import *
-from webcrawler.httpbrowser import *
+from hjwebbrowser.utils import *
+from hjwebbrowser.browser import *
+from hjwebbrowser.httpbrowser import *
+from hjwebbrowser.tor import *
 from queue import *
 import gc
 
@@ -118,6 +119,7 @@ class Crawler:
                     allRequestsSleepMin=0.0,
                     allRequestsSleepMax=0.0,
                     useHTTPBrowser=False,
+                    allowRestartTor=False,
                     httpBrowserParams={},
                  ):
         """
@@ -156,6 +158,7 @@ class Crawler:
         self.allRequestsSleepMax = allRequestsSleepMax
 
         # Proxies:
+        self.allowRestartTor = allowRestartTor
         self.useProxies = useProxies
         self.proxies = None
         if self.useProxies:
@@ -760,6 +763,12 @@ class Crawler:
 #                     time.sleep(0.5)
             else:
                 newParams = self.bandit.nextParams(self.score)
+            # We restart the tor service:
+            try:
+                if torSingletonExists() and self.allowRestartTor:
+                    getTorSingleton().restart()
+            except Exception as e:
+                logException(e, self, location="nextBanditRound")
             # We reset the score for this new round:
             self.score = 0
             # If we have same params, we just continue with same browsers:
@@ -909,12 +918,12 @@ class Crawler:
         # we sleep to not send a lot a request at the same time:
         if browser.name not in self.startedBrowsers or not self.startedBrowsers[browser.name]:
             sleepDuration = randomSleep(self.firstRequestSleepMin, self.firstRequestSleepMax)
-            log(browser.name + " just slept " + str(sleepDuration) + " seconds because it's the first request for this browser.", self)
+            # log(browser.name + " just slept " + str(sleepDuration) + " seconds because it's the first request for this browser.", self)
             self.startedBrowsers[browser.name] = True
         # Then we sleep for each request:
         if self.allRequestsSleepMax > 0.0:
             sleepDuration = randomSleep(self.allRequestsSleepMin, self.allRequestsSleepMax)
-            log(browser.name + " just slept " + str(sleepDuration) + " seconds before requesting " + crawlingElement.toString(), self)
+            # log(browser.name + " just slept " + str(sleepDuration) + " seconds before requesting " + crawlingElement.toString(), self)
 
         # First we check if this is a piped browser:
         pipCallback = None

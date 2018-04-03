@@ -1,1 +1,0 @@
-bbc-cookie.html doesn't work for boilerpipe because he takes saetimes only cookie message on the top of the page.

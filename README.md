@@ -94,14 +94,14 @@ Each callback functions has to be passed in init parameters like we saw above.
 
 	def alreadyCrawledFunct(crawlingElement):
 		global logger
-	    try:
-	        url = crawlingElement.data
-	        if crawlingDatabaseHas(url):
-	            log("This data of this url is already in the database: " + url, logger)
-	            return True
-	    except Exception as e:
-	        logException(e, logger, location="alreadyCrawledFunct")
-	    return False
+		try:
+			url = crawlingElement.data
+			if crawlingDatabaseHas(url):
+				log("This data of this url is already in the database: " + url, logger)
+				return True
+		except Exception as e:
+			logException(e, logger, location="alreadyCrawledFunct")
+		return False
 
 
  * **terminatedCallback**: In this function you receive url that have failed enough in `urlsFailedEnough` and those which don't failed enough in `urlsFailedNotEnough` in the case you stopped the crawler:

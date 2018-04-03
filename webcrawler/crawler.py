@@ -60,19 +60,11 @@ class Crawler:
     def __init__(\
                     self,
                     startUrls,
-                    paramsDomain = \
-                    {
-                        "proxyInstanciationRate":
-                        {
-                            # 0.99 will choose all proxies uniformly, it's important to keep this param because
-                            # proxies can fall down in the performance classement (mistake) and we will not use
-                            # it again...
-                            "alpha": [0.0, 0.05, 0.2, 0.5, 0.95, 0.99], # [0.0, 0.05, 0.2, 0.5, 0.5, 0.95, 0.99]
-                            "beta": [NormalizedLawBeta.LOG, NormalizedLawBeta.EXP]
-                        },
-                        "browserCount": [100, 150, 200],
-                        "parallelRequests": [20, 50, 100, 150],
-                    },
+                    paramsDomain=None,
+                    alpha=[0.99],
+                    beta=[NormalizedLawBeta.LOG],
+                    parallelRequests=[5, 20, 50],
+                    browserCount=[50, 100],
                     banditRoundDuration=120, # in seconds
                     verbose=True,
                     logger=None,
@@ -120,6 +112,7 @@ class Crawler:
                     allRequestsSleepMax=0.0,
                     useHTTPBrowser=False,
                     allowRestartTor=False,
+                    deleteCrawlingElement=True,
                     httpBrowserParams={},
                  ):
         """
@@ -130,6 +123,22 @@ class Crawler:
             You don't need to do this : https://blog.codeship.com/get-selenium-to-wait-for-page-load/
             sameBrowsersParallelRequestsCount: to force the browser count to be the same as the parallel request count
         """
+        # Domain params:
+        if paramsDomain is None:
+            paramsDomain = \
+            {
+                "proxyInstanciationRate":
+                {
+                    # 0.99 will choose all proxies uniformly, it's important to keep this param because
+                    # proxies can fall down in the performance classement (mistake) and we will not use
+                    # it again...
+                    "alpha": alpha, # [0.0, 0.05, 0.2, 0.5, 0.5, 0.95, 0.99]
+                    "beta": beta, # NormalizedLawBeta.EXP
+                },
+                "browserCount": browserCount,
+                "parallelRequests": parallelRequests,
+            }
+
         # Callback and functions:
         self.beforeAjaxSleepCallback = beforeAjaxSleepCallback
         self.afterAjaxSleepCallback = afterAjaxSleepCallback
@@ -187,6 +196,7 @@ class Crawler:
         self.httpBrowserParams = httpBrowserParams
 
         # Others:
+        self.deleteCrawlingElement = deleteCrawlingElement
         self.phantomjsKillPattern = phantomjsKillPattern
         self.chromeKillPattern = chromeKillPattern
         self.mainThreadTimeInterval = mainThreadTimeInterval
@@ -1042,6 +1052,8 @@ class Crawler:
                         self.alreadyCrawled.add(crawlingElement)
                     # And finally we store this data in mongodb (for example):
                     try:
+                        if self.deleteCrawlingElement and "crawlingElement" in data:
+                            del data["crawlingElement"]
                         pipedMessage = self.crawlingCallback(data, browser=browser)
                     except Exception as e:
                         logException(e, self, location="Crawler.htmlCallback")
@@ -1058,7 +1070,7 @@ class Crawler:
                     #     * On doit ajouter le browser dans les piped browsers
                     # 4. On a pas de piped message mais on en avait un avant
                     #     * On doit close le browser puisqu'on ne l'utilisera plus
-                    #     * On le l'ajoute pas dans la queue
+                    #     * On ne l'ajoute pas dans la queue
                     if pipedMessage is None: # 1 and 4
                         if crawlingElement.type != CrawlingElement.TYPE.pipedMessage: # 1
                             browserToClone = False
@@ -1084,6 +1096,8 @@ class Crawler:
                 else:
 #                     printLTS(data)
                     if self.failedCallback is not None:
+                        if self.deleteCrawlingElement and "crawlingElement" in data:
+                            del data["crawlingElement"]
                         self.failedCallback(data)
                     if crawlingElement.type == CrawlingElement.TYPE.uniqueUrl:
                         if self.maxRetryFailed > 0:

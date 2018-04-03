@@ -89,7 +89,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 	        logException(e, logger, location="alreadyFailedFunct")
 	    return False
 
- * **alreadyCrawledFunct**: This function works the same but you have to return `True` in the case you already downloaded this url. For example, you can check if the url exists in the database:
+**alreadyCrawledFunct**: This function works the same but you have to return `True` in the case you already downloaded this url. For example, you can check if the url exists in the database:
 
 
 	def alreadyCrawledFunct(crawlingElement):

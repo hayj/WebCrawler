@@ -24,7 +24,7 @@ The `WebCrawler` class exploit the [WebBrowser](https://github.com/hayj/WebBrows
 
 ## Disadvantages of classic crawling libraries
 
-Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit *Selenium* (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not "callback" oriented but "inheritance" oriented which can be hard in separating your scrapinp / indexing code from the crawler itself.
+Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit *Selenium* (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not fully "callback" oriented but you also need to inherit class which can be hard in separating your scrapinp / indexing code from the crawler itself.
 
 ## Usage
 

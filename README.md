@@ -1,7 +1,6 @@
 # WebCrawler
 
-The `WebCrawler` class
-
+The `WebCrawler` exploit the [WebBrowser](https://github.com/hayj/WebBrowser/) lib (which use `Selenium` and `requests`) to crawl URLs in parallel. This lib is "callback oriented".
 
 ## Installation (Python 3)
 
@@ -10,11 +9,11 @@ The `WebCrawler` class
 
 ## Features
 
- * Use concurrency to request web pages in parallel.
+ * Use concurrency to request web pages in parallel with multiple `Selenium` instances.
  * Easy usage through callback functions (for events when the page is loaded, when an url failed...)
- * Auto page checking (take care of pages duplicates (with [`DomainDuplicate`](https://github.com/hayj/DomainDuplicate)) across pages of a same domain to detect "captcha pages" or invalid pages). It exploit all features of the [`WebBrowser`](https://github.com/hayj/WebBrowser) library.
+ * Auto page checking (take care of pages duplicates (with [DomainDuplicate](https://github.com/hayj/DomainDuplicate)) across pages of a same domain to detect "captcha pages" or invalid pages). It exploit all features of the [`WebBrowser`](https://github.com/hayj/WebBrowser) library.
  * Exploit *Selenium* (instead of `requests` for most crawler libraries like [Scrapy](https://scrapy.org/)). It makes it slower but we can execute javascript and use all *Selenium* features. *Chrome* and *PhantomJS* are both compatible.
- * Exploit also `requests` but normalize the generated data with the [`WebBrowser`](https://github.com/hayj/WebBrowser) library.
+ * Exploit also `requests` but normalize the generated data with the [WebBrowser](https://github.com/hayj/WebBrowser) library.
  * Allows the use of several proxies.
  * Real time proxies scoring and selection.
  * Retry failed URLs a number of times.
@@ -22,11 +21,9 @@ The `WebCrawler` class
  * Use the [`Multi-armed bandit`](https://en.wikipedia.org/wiki/Multi-armed_bandit) to automatically adjusts the settings.
  * Automatically kill dead Selenium process on Linux (Selenium is sometimes unstable).
 
-
 ## Disadvantages of classic crawling libraries
 
-Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit Selenium (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not "callback" oriented but "inheritance" oriented which can be hard to separate your scrapinp / indexing code from the crawler library.
-
+Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit Selenium (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not "callback" oriented but "inheritance" oriented which can be hard in separating your scrapinp / indexing code from the crawler itself.
 
 ## Usage
 
@@ -40,7 +37,7 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 
  * **startUrls**: The first param is mandatory, it is a list of urls, or a generator (i.e. a function which yield urls) / iterator. Duplicates urls will automatically be skipped.
  * **useHTTPBrowser**: Indicate the usage of an [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py).
- * **httpBrowserParams**: This is a dict of args for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
+ * **httpBrowserParams**: Is a dict of args for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
  * **maxRetryFailed**: The meximum number of retries the crawler has to do for failed urls.
  * **banditRoundDuration**: The duration of a round for the bandit. At each round, the bandit will choose new params (explore or exploit).
  * **proxies**: A list of proxies. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more information, section *Proxies*.
@@ -52,7 +49,7 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 
 Each callback functions has to be passed in init parameters like we saw above.
 
-**crawlingCallback**: This is the main callback, you receive crawled data and the browser (which can be a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py)) at end of *Ajax sleep* after a page was loaded. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more informations about `REQUEST_STATUS` and `data`:
+**crawlingCallback**: Is the main callback, you receive crawled data and the browser (which can be a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py)) at end of *Ajax sleep* after a page was loaded. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more informations about `REQUEST_STATUS` and `data`:
 
 	def crawlingCallback(data, browser=None):
 		global logger
@@ -127,9 +124,13 @@ Each callback functions has to be passed in init parameters like we saw above.
 				currentFailedText += str(current.data) + "\n"
 			logInfo(text + ":\n" + currentFailedText, logger)
 
+## Add URLs during the crawling process
 
+Use the `put` method from `Crawler`:
 
-## Multi-armed bandit parameters:
+	c.put("http://...")
+
+## Multi-armed bandit init parameters:
 
 You have to set the *multi-armed bandit* parameters in 3 parameters so the bandit can optimize these parameters for the crawler. It will explore random parameters and exploit best parameters in most cases. Each param has to be a list of values (for the bandit to choose):
 
@@ -150,7 +151,7 @@ You can adjust the duration of certain events, all in seconds:
  * **firstRequestSleepMin and firstRequestSleepMax**: The sleep duration of the first request of a Browser (a random value between min and max). It is useful to do not send a lot of requests in parallel when the crawler starts.
  * **allRequestsSleepMin and allRequestsSleepMax**: The same but for all requests.
 
-## Others parameters
+## Others init parameters
 
  * **browserMaxDuplicatePerDomain**: See [DomainDuplicate](https://github.com/hayj/DomainDuplicate)) for more information.
  * **allowRestartTor**: if set as `True`, the crawling is authorized to restart Tor services for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
@@ -186,6 +187,4 @@ This class handle elements to crawl, basically URLs, but also piped messages (be
 ## Others
 
  * You can integrate [HoneypotDetector](https://github.com/hayj/HoneypotDetector) in your crawler.
-
-## Complete example
 

@@ -40,7 +40,7 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 
 Each callback functions has to be passed in init parameters like we saw above.
 
- * **crawlingCallback**: This is the main callback, you receive crawled data and the browser (which can be a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py)) at end of *Ajax sleep* after a page was loaded. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more informations about `REQUEST_STATUS` and `data`:
+**crawlingCallback**: This is the main callback, you receive crawled data and the browser (which can be a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py)) at end of *Ajax sleep* after a page was loaded. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more informations about `REQUEST_STATUS` and `data`:
 
 	def crawlingCallback(data, browser=None):
 		global logger
@@ -55,9 +55,9 @@ Each callback functions has to be passed in init parameters like we saw above.
 			elif status in [REQUEST_STATUS.error404]:
 				logError(url + " is a 404...", logger)
 		except Exception as e:
-		    logException(e, logger, location="crawlingCallback")
+			logException(e, logger, location="crawlingCallback")
 
- * **failedCallback**: In this callback, we receive data from failed urls (`REQUEST_STATUS.<timeout|refused|duplicate|invalid|exception>`). In this example, we use a `SerializableDict` from [DataStructureTools](https://github.com/hayj/DataStructureTools) to retain all failed urls so you can synchronize failed urls accross several servers via MongoDB (see `alreadyFailedFunct` below):
+**failedCallback**: In this callback, we receive data from failed urls (`REQUEST_STATUS.<timeout|refused|duplicate|invalid|exception>`). In this example, we use a `SerializableDict` from [DataStructureTools](https://github.com/hayj/DataStructureTools) to retain all failed urls so you can synchronize failed urls accross several servers via MongoDB (see `alreadyFailedFunct` below):
 
 	failsSD = None
 	def failedCallback(data):
@@ -65,29 +65,29 @@ Each callback functions has to be passed in init parameters like we saw above.
 		global logger
 		# We init the SD with a MongoDB on the localhost (set user, password and host):
 		if failsSD is None:
-		    failsSD = SerializableDict("newscrawlfails", useMongodb=True)
+			failsSD = SerializableDict("newscrawlfails", useMongodb=True)
 		try:
 			# We get the url:
-		    url = data["url"]
-		    if failsSD.has(url):
-		        failsSD[url] += 1
-		    else:
-		        failsSD[url] = 1
+			url = data["url"]
+			if failsSD.has(url):
+				failsSD[url] += 1
+			else:
+				failsSD[url] = 1
 		except Exception as e:
-		    logException(e, logger, location="failedCallback")
+			logException(e, logger, location="failedCallback")
 
- * **alreadyFailedFunct**: This function take a `CrawlingElement` (the url) and return True if url failed enough (i.e. you don't want to retry it):
+**alreadyFailedFunct**: This function take a `CrawlingElement` (the url) and return True if url failed enough (i.e. you don't want to retry it):
 
 	def alreadyFailedFunct(crawlingElement):
 		global logger
-	    try:
-	        url = crawlingElement.data
-	        if failsSD.has(url) and failsSD[url] > crawler.maxRetryFailed:
-	            log("Failed enough in failsSD: " + url, logger)
-	            return True
-	    except Exception as e:
-	        logException(e, logger, location="alreadyFailedFunct")
-	    return False
+		try:
+			url = crawlingElement.data
+			if failsSD.has(url) and failsSD[url] > crawler.maxRetryFailed:
+				log("Failed enough in failsSD: " + url, logger)
+				return True
+		except Exception as e:
+			logException(e, logger, location="alreadyFailedFunct")
+		return False
 
 **alreadyCrawledFunct**: This function works the same but you have to return `True` in the case you already downloaded this url. For example, you can check if the url exists in the database:
 
@@ -109,7 +109,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 	def terminatedCallback(urlsFailedNotEnough, urlsFailedEnough):
 		global logger
 		for text, currentFailed in [("urlsFailedNotEnough", urlsFailedNotEnough),
-	                                ("urlsFailedEnough", urlsFailedEnough)]:
+									("urlsFailedEnough", urlsFailedEnough)]:
 			currentFailedText = ""
 			for current in currentFailed:
 				currentFailedText += str(current.data) + "\n"

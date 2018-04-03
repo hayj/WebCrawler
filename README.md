@@ -104,7 +104,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 		return False
 
 
- * **terminatedCallback**: In this function you receive url that have failed enough in `urlsFailedEnough` and those which don't failed enough in `urlsFailedNotEnough` in the case you stopped the crawler:
+**terminatedCallback**: In this function you receive url that have failed enough in `urlsFailedEnough` and those which don't failed enough in `urlsFailedNotEnough` in the case you stopped the crawler:
 
 	def terminatedCallback(urlsFailedNotEnough, urlsFailedEnough):
 		global logger

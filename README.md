@@ -91,6 +91,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 
  * **alreadyCrawledFunct**: This function works the same but you have to return `True` in the case you already downloaded this url. For example, you can check if the url exists in the database:
 
+
 	def alreadyCrawledFunct(crawlingElement):
 		global logger
 	    try:
@@ -101,6 +102,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 	    except Exception as e:
 	        logException(e, logger, location="alreadyCrawledFunct")
 	    return False
+
 
  * **terminatedCallback**: In this function you receive url that have failed enough in `urlsFailedEnough` and those which don't failed enough in `urlsFailedNotEnough` in the case you stopped the crawler:
 

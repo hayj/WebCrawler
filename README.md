@@ -18,7 +18,7 @@ The `WebCrawler` class exploit the [WebBrowser](https://github.com/hayj/WebBrows
  * Real time proxies scoring and selection.
  * Retry failed URLs a number of times.
  * Randomize the browser header and window size according to the used proxy.
- * Use the [Multi-armed bandit](https://en.wikipedia.org/wiki/Multi-armed_bandit) to automatically adjusts the settings.
+ * Use a [Multi-armed bandit](https://en.wikipedia.org/wiki/Multi-armed_bandit) to automatically adjusts the settings.
  * Automatically kill dead *Selenium* process on Linux (*Selenium* is sometimes unstable).
 
 ## Disadvantages of classic crawling libraries
@@ -36,13 +36,13 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 ## Main init parameters:
 
  * **startUrls**: The first param is mandatory, it is a list of urls, or a generator (i.e. a function which yield urls) / iterator. Duplicates urls will automatically be skipped.
- * **useHTTPBrowser**: Indicate the usage of an [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py).
+ * **useHTTPBrowser**: Indicate the usage of a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) with *Selenium*.
  * **httpBrowserParams**: Is a dict of args for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
- * **maxRetryFailed**: The meximum number of retries the crawler has to do for failed urls.
- * **banditRoundDuration**: The duration of a round for the bandit. At each round, the bandit will choose new params (explore or exploit).
- * **proxies**: A list of proxies. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more information, section *Proxies*.
+ * **maxRetryFailed**: The maximum number of retries the crawler has to do for failed urls.
+ * **banditRoundDuration**: The duration of a round in seconds for the bandit. At each round, the bandit will choose new params (explore or exploit).
+ * **proxies**: A list of proxies. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more information, in *Proxies* section.
  * **browsersDriverType**: Default is `DRIVER_TYPE.chrome`, see [WebBrowser](https://github.com/hayj/WebBrowser/) for more information (don't forget to set *Chrome* and *PhantomJS* driver in the `PATH` env var). Prefer *PhantomJS* to crawl with a lot of parallel browsers, it take less CPU, but is deprecated (it works with `selenium==3.8.0` and `phantomjs==2.1.1`).
- * **browsersHeadless**: Boolean, choose headless or not for the Chrome driver.
+ * **browsersHeadless**: Boolean, choose headless or not for the *Chrome* driver.
 
 
 ## Callbacks
@@ -74,7 +74,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 		global logger
 		# We init the SD with a MongoDB on the localhost (set user, password and host):
 		if failsSD is None:
-			failsSD = SerializableDict("newscrawlfails", useMongodb=True)
+			failsSD = SerializableDict("crawlfails", useMongodb=True)
 		try:
 			# We get the url:
 			url = data["url"]
@@ -85,7 +85,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 		except Exception as e:
 			logException(e, logger, location="failedCallback")
 
-**alreadyFailedFunct**: This function take a `CrawlingElement` (the url) and return True if url failed enough (i.e. you don't want to retry it):
+**alreadyFailedFunct**: This function take a `CrawlingElement` (the url) and return `True` if url failed enough (i.e. you don't want to retry it):
 
 	def alreadyFailedFunct(crawlingElement):
 		global logger
@@ -113,12 +113,12 @@ Each callback functions has to be passed in init parameters like we saw above.
 		return False
 
 
-**terminatedCallback**: In this function you receive url that have failed enough in `urlsFailedEnough` and those which don't failed enough in `urlsFailedNotEnough` in the case you stopped the crawler:
+**terminatedCallback**: In this function you receive urls that have failed enough in `urlsFailedEnough` and those which don't failed enough in `urlsFailedNotEnough` in the case you stopped the crawler:
 
 	def terminatedCallback(urlsFailedNotEnough, urlsFailedEnough):
 		global logger
 		for text, currentFailed in [("urlsFailedNotEnough", urlsFailedNotEnough),
-									("urlsFailedEnough", urlsFailedEnough)]:
+				("urlsFailedEnough", urlsFailedEnough)]:
 			currentFailedText = ""
 			for current in currentFailed:
 				currentFailedText += str(current.data) + "\n"
@@ -138,9 +138,9 @@ You have to set the *multi-armed bandit* parameters in 3 parameters so the bandi
 	parallelRequests=[5, 20, 50],
 	browserCount=[50, 100],
 
- * **alpha**: Is a number between 0.0 and 1.0 which determine the proxy pattern allocation. If near to 0.0, it will allocate only best proxies to all browsers, if near to 1.0, it will allocate uniformly all proxies to all browser, you will see the allocation in logs at each *multi-armed bandit* round.
- * **parallelRequests**: The number of parallel for the bandit to choose
- * **browserCount**: The number of browsers for the bandit to choose (must be greater than *parallelRequests*)
+ * **alpha**: Is a number between 0.0 and 1.0 which determine the proxy pattern allocation. If near to 0.0, it will allocate only best proxies to all browsers, if near to 1.0, it will allocate uniformly all proxies to all browsers, you will see the allocation in logs at each *multi-armed bandit* round.
+ * **parallelRequests**: The number of parallel requests for the bandit to choose.
+ * **browserCount**: The number of browsers for the bandit to choose (must be greater than *parallelRequests*).
 
 ## Time init parameters
 

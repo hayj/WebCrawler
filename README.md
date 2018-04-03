@@ -20,6 +20,7 @@ The `WebCrawler` class exploit the [WebBrowser](https://github.com/hayj/WebBrows
  * Randomize the browser header and window size according to the used proxy.
  * Use a [Multi-armed bandit](https://en.wikipedia.org/wiki/Multi-armed_bandit) to automatically adjusts the settings.
  * Automatically kill dead *Selenium* process on Linux (*Selenium* is sometimes unstable).
+ * You can use *piped browsers* (beta) to connect to a web site and keep the session on, or you can do search in a specifi filed on the web page...
 
 ## Disadvantages of classic crawling libraries
 
@@ -153,13 +154,13 @@ You can adjust the duration of certain events, all in seconds:
 
 ## Others init parameters
 
- * **browserMaxDuplicatePerDomain**: See [DomainDuplicate](https://github.com/hayj/DomainDuplicate)) for more information.
+ * **browserMaxDuplicatePerDomain**: Int, see [DomainDuplicate](https://github.com/hayj/DomainDuplicate) for more information.
  * **allowRestartTor**: if set as `True`, the crawling is authorized to restart Tor services for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
  * **sameBrowsersParallelRequestsCount**: If set as `True`, the crawler is not authorized to set different number of parallel requests vs parallel browsers in activity. You can use this if you set *useHTTPBrowser* as `True`. See the *Ajax sleep is not a bottleneck* section for more information.
  * **loadImages**: Boolean.
- * **useProxies**: Default is `True`. Set it as `False` if you don't want to use proxies even you  gave ones in *proxies*.
+ * **useProxies**: Default is `True`. Set it as `False` if you don't want to use proxies even you  gave ones in `proxies`.
  * **stopCrawlerAfterSeconds**: To stop the crawler the crawler after n seconds if he didn't receive other urls from the url generator.
- * **queueMinSize**: The number of urls from *stratUrls* to keep in the queue (default 1000).
+ * **queueMinSize**: The number of urls from `startUrls` to keep in the queue (default `1000`).
  * **banditExploreRate**: The bandit exploration rate (default `0.2`). The first 30 requests, the bandit will explore.
  * **browserUseFastError404Detection**: Set it as `True` if you don't want to use [404Detector](https://github.com/hayj/404Detector) to speed up treatment.
  * **logger**: A logger from `systemtools.logger` (see [SystemTools](https://github.com/hayj/SystemTools)).
@@ -167,10 +168,10 @@ You can adjust the duration of certain events, all in seconds:
 
 ## Ajax sleep is not a bottleneck
 
-We consider 3 bottleneck:
+We consider 2 bottleneck:
 
- * The proxy bandwidth: so we automatically select best proxies at each *multi-armed bandit* round
- * Your computer bandwidth: so the *multi-armed bandit* will adjust the number of parallel requests and other parameters
+ * **The proxy bandwidth**: so we automatically select best proxies at each *multi-armed bandit* round
+ * **Your computer bandwidth**: so the *multi-armed bandit* will adjust the number of parallel requests and other parameters
 
 But we consider an *Ajax sleep* (when we wait for *Ajax* loading when a page was loaded) not to be a bottleneck. The main advantage of this hypothesis (which is right in most cases because you sometimes have no *Ajax* load, or it's a lot less bandwidth consumer) is that an *Ajax sleep* do not reduce the total amount of actual parallel requests (total amount of parallel requests != total amount of parallel browser in activity).
 
@@ -181,7 +182,7 @@ This class handle elements to crawl, basically URLs, but also piped messages (be
 ## Others callbacks
 
  * **beforeAjaxSleepCallback and afterAjaxSleepCallback**: See `hjwebbrowser.browser.Browser` from [WebBrowser](https://github.com/hayj/WebBrowser/) for more information.
- * **pipCallback**: This callback is useful to use piped Browser when your returned values in *crawlingCallback*. It allow you to keep a browser across multiple pages. It is actually in beta. With piped browser you can also set *notUniqueUrlsGetter* to give not unique url (for example in the case you start on a "search page" and you want to continue browsing, or when you want to log in...
+ * **pipCallback**: This callback is useful to use *piped browsers* when your returned values in *crawlingCallback*. It allow you to keep a browser across multiple pages. It is actually in beta but works in most cases. When using *piped browsers* you can also set *notUniqueUrlsGetter* to give not unique urls (for example in the case you start on a "search page" and you want to continue browsing, or when you want to log in...)
  * **beforeGetCallback**: Receive the browser, do something with it before the `get` of the url.
 
 ## Others

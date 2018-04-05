@@ -127,7 +127,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 
 Use the `put` method from `Crawler`:
 
-	c.put("http://...")
+	crawler.put("http://...")
 
 ## Multi-armed bandit init parameters:
 

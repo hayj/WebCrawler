@@ -36,7 +36,7 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 ## Main init parameters:
 
  * **startUrls**: The first param is mandatory, it is a list of urls, or a generator (i.e. a function which yield urls) / iterator. Duplicates urls will automatically be skipped.
- * **useHTTPBrowser**: Indicate the usage of a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) with *Selenium*.
+ * **useHTTPBrowser**: Indicate the usage of a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.browser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) with *Selenium*.
  * **httpBrowserParams**: Is a dict of args for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
  * **maxRetryFailed**: The maximum number of retries the crawler has to do for failed urls.
  * **banditRoundDuration**: The duration of a round in seconds for the bandit. At each round, the bandit will choose new params (explore or exploit).
@@ -49,7 +49,7 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 
 Each callback functions has to be passed in init parameters like we saw above.
 
-**crawlingCallback**: Is the main callback, you receive crawled data and the browser (which can be a [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py)) at end of *Ajax sleep* after a page was loaded. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more informations about `REQUEST_STATUS` and `data`:
+**crawlingCallback**: Is the main callback, you receive crawled data and the browser (which can be a [hjwebbrowser.browser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py)) at end of *Ajax sleep* after a page was loaded. See [WebBrowser](https://github.com/hayj/WebBrowser/) for more informations about `REQUEST_STATUS` and `data`:
 
 	def crawlingCallback(data, browser=None):
 		global logger
@@ -183,9 +183,9 @@ This class handle elements to crawl, basically URLs, but also piped messages (be
  * **pipCallback**: This callback is useful to use *piped browsers* when your returned values in *crawlingCallback*. It allow you to keep a browser across multiple pages. It is actually in beta but works in most cases. When using *piped browsers* you can also set *notUniqueUrlsGetter* to give not unique urls (for example in the case you start on a "search page" and you want to continue browsing, or when you want to log in...)
  * **beforeGetCallback**: Receive the browser, do something with it before the `get` of the url.
 
-## How to set DomainDuplicates parameters
+## How to set DomainDuplicate parameters
 
-In the Crawler init you can set [DomainDuplicate](https://github.com/hayj/DomainDuplicate) init parameters for the singleton used in [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py) using `browserParams` or `httpBrowserParams`. For example, if you want to set `user`, `password` and `host` for the Mongo database of [DomainDuplicate](https://github.com/hayj/DomainDuplicate) singleton in [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py):
+In the Crawler init you can set [DomainDuplicate](https://github.com/hayj/DomainDuplicate) init parameters for the singleton used in [hjwebbrowser.browser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py) using `browserParams` or `httpBrowserParams`. For example, if you want to set `user`, `password` and `host` for the Mongo database of [DomainDuplicate](https://github.com/hayj/DomainDuplicate) singleton in [hjwebbrowser.browser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py):
 
 	>>> crawler = Crawler(browserParams={"domainDuplicateParams": {"user": None, "password": None, "host": "localhost"}})
 

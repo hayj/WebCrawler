@@ -114,6 +114,7 @@ class Crawler:
                     allowRestartTor=False,
                     deleteCrawlingElement=True,
                     httpBrowserParams={},
+                    browserParams={},
                  ):
         """
             startUrls can be a list, an iterator or a generator
@@ -179,6 +180,7 @@ class Crawler:
                 except: pass
 
         # For the browser:
+        self.browserParams = browserParams
         self.browsersPhantomjsPath = browsersPhantomjsPath
         self.browsersHeadless = browsersHeadless
         self.browsersDriverType = browsersDriverType
@@ -704,7 +706,8 @@ class Crawler:
                 afterAjaxSleepCallback=self.afterAjaxSleepCallback,
                 maxDuplicatePerDomain=self.browserMaxDuplicatePerDomain,
                 loadImages=self.loadImages,
-                useFastError404Detection=self.browserUseFastError404Detection
+                useFastError404Detection=self.browserUseFastError404Detection,
+                **self.browserParams,
             )
             if self.checkProxy:
                 if not b.checkProxy():

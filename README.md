@@ -183,6 +183,12 @@ This class handle elements to crawl, basically URLs, but also piped messages (be
  * **pipCallback**: This callback is useful to use *piped browsers* when your returned values in *crawlingCallback*. It allow you to keep a browser across multiple pages. It is actually in beta but works in most cases. When using *piped browsers* you can also set *notUniqueUrlsGetter* to give not unique urls (for example in the case you start on a "search page" and you want to continue browsing, or when you want to log in...)
  * **beforeGetCallback**: Receive the browser, do something with it before the `get` of the url.
 
+## How to set DomainDuplicates parameters
+
+In the Crawler init you can set [DomainDuplicate](https://github.com/hayj/DomainDuplicate) init parameters for the singleton used in [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) or [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py) using `browserParams` or `httpBrowserParams`. For example, if you want to set `user`, `password` and `host` for the Mongo database of [DomainDuplicate](https://github.com/hayj/DomainDuplicate) singleton in [hjwebbrowser.httpbrowser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py):
+
+	>>> crawler = Crawler(browserParams={"domainDuplicateParams": {"user": None, "password": None, "host": "localhost"}})
+
 ## Others
 
  * You can integrate [HoneypotDetector](https://github.com/hayj/HoneypotDetector) in your crawler.

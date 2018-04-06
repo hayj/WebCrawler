@@ -836,33 +836,40 @@ class Crawler:
                         current.start()
                     for current in currentInstanciationThreads:
                         current.join()
-
-                # While we still have browsers :
-                parallelBrowserInit = newParams["parallelRequests"]
-                if not self.checkProxy:
-                    parallelBrowserInit = newParams["browserCount"]
-                while len(proxiesInstanciation) > 0:
-                    # We get the first browser we found in proxiesInstanciation:
-                    currentInstan = dictRandomElement(proxiesInstanciation)
-                    currentBrowserIp = currentInstan[0]
-                    currentBrowserCount = currentInstan[1]
-                    # And if the current instanciation row is 0, we pop it and continue the while loop:
-                    if currentBrowserCount == 0:
-                        proxiesInstanciation.pop(currentBrowserIp)
-                    else:
-                        # We decrement the browser amount for this ip:
-                        proxiesInstanciation[currentBrowserIp] -= 1
-                        # Here we create one thread for this browser:
-                        theThread = Thread(target=self.addBrowser, args=(currentBrowserIp,))
+                if self.useProxies:
+                    # While we still have browsers :
+                    parallelBrowserInit = newParams["parallelRequests"]
+                    if not self.checkProxy:
+                        parallelBrowserInit = newParams["browserCount"]
+                    while len(proxiesInstanciation) > 0:
+                        # We get the first browser we found in proxiesInstanciation:
+                        currentInstan = dictRandomElement(proxiesInstanciation)
+                        currentBrowserIp = currentInstan[0]
+                        currentBrowserCount = currentInstan[1]
+                        # And if the current instanciation row is 0, we pop it and continue the while loop:
+                        if currentBrowserCount == 0:
+                            proxiesInstanciation.pop(currentBrowserIp)
+                        else:
+                            # We decrement the browser amount for this ip:
+                            proxiesInstanciation[currentBrowserIp] -= 1
+                            # Here we create one thread for this browser:
+                            theThread = Thread(target=self.addBrowser, args=(currentBrowserIp,))
+                            instanciationThreads.append(theThread)
+                            # And if we have a number of threads equals to the number of requete in parallel:
+                            if len(instanciationThreads) == parallelBrowserInit:
+                                # We lanch all and wait:
+                                launchAllThread(instanciationThreads)
+                                # Then we have to reset the thread list:
+                                instanciationThreads = []
+                    # Now maybe some threads not started remain, so we have to launch all of them:
+                    launchAllThread(instanciationThreads)
+                else:
+                    for i in range(newParams["browserCount"]):
+                        theThread = Thread(target=self.addBrowser, args=(None,))
                         instanciationThreads.append(theThread)
-                        # And if we have a number of threads equals to the number of requete in parallel:
-                        if len(instanciationThreads) == parallelBrowserInit:
-                            # We lanch all and wait:
-                            launchAllThread(instanciationThreads)
-                            # Then we have to reset the thread list:
-                            instanciationThreads = []
-                # Now maybe some threads not started remain, so we have to launch all of them:
-                launchAllThread(instanciationThreads)
+                    instanciationThreadsChunks = chunks(instanciationThreads, cpuCount() * 2)
+                    for currentThreads in instanciationThreadsChunks:
+                        launchAllThread(currentThreads)
 
             # Here the we are in the case we first execute nextBanditRound to get
             # first params, so we will start after, we just need to start the timer

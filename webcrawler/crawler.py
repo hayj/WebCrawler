@@ -102,10 +102,9 @@ class Crawler:
                     loadImages=True,
                     phantomjsKillPattern=".*phantomjs.*octopeek.*",
                     chromeKillPattern=".*chrome.*",
-                    browsersPhantomjsPath=None,
                     sameBrowsersParallelRequestsCount=False,
                     beforeGetCallback=None,
-                    browserUseFastError404Detection=False,
+                    browserUseFastError404Detection=True,
                     firstRequestSleepMin=0.0,
                     firstRequestSleepMax=5.0,
                     allRequestsSleepMin=0.0,
@@ -198,10 +197,12 @@ class Crawler:
                 try:
                     self.proxies = getProxies(proxiesPath)
                 except: pass
+        if self.useProxies and (self.proxies is None or len(self.proxies) == 0):
+            self.useProxies = False
+            self.proxies = None
 
         # For the browser:
         self.browserParams = browserParams
-        self.browsersPhantomjsPath = browsersPhantomjsPath
         self.browsersHeadless = browsersHeadless
         self.browsersDriverType = browsersDriverType
         if self.browsersDriverType is None:
@@ -717,7 +718,6 @@ class Crawler:
             b = Browser \
             (
                 proxy=theProxy,
-                phantomjsPath=self.browsersPhantomjsPath,
                 headless=self.browsersHeadless,
                 driverType=self.browsersDriverType,
                 pageLoadTimeout=self.pageLoadTimeout,
@@ -868,6 +868,7 @@ class Crawler:
                         theThread = Thread(target=self.addBrowser, args=(None,))
                         instanciationThreads.append(theThread)
                     instanciationThreadsChunks = chunks(instanciationThreads, cpuCount() * 2)
+                    printLTS(instanciationThreadsChunks)
                     for currentThreads in instanciationThreadsChunks:
                         launchAllThread(currentThreads)
 

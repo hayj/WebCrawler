@@ -32,19 +32,10 @@ from queue import *
 import gc
 
 
-# TODO bandit round + piped message...
 
-# TODO piped message
 
-# TODO readme
 
 # TODO pouvoir dire tel browser prend tel lien en priorité pour respecter l'ordre du spider....
-
-# TODO Give example of scenarios :
-# 1 : jsut crawl a set of urls
-# 2 : crawl a set of urls and put other urls during the crawling
-# 3 : give start pages and do some research, then find new urls etc... --> need piped messages
-# Attention, de manière général, bien décomposer en plusieurs scripts la tache de crawling, et bien retenir ce que l'on fait pour ne pas le refaire plusieurs fois (i.e. retenir que tel requete a donné tel lien resultat, dans quel ordre etc...)
 
 # TODO piped message process + piped message with driver killing
 

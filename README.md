@@ -59,12 +59,17 @@ Each callback functions has to be passed in init parameters like we saw above.
 			status = data["status"]
 			# If the request succeeded, we store it in a database:
 			if status in [REQUEST_STATUS.success, REQUEST_STATUS.timeoutWithContent]:
-				addToTheDatabaserawl(data)
+				addToTheDatabase(data) # Your own function
 			# Else if the request succeeded but we got a 404:
 			elif status in [REQUEST_STATUS.error404]:
 				logError(url + " is a 404...", logger)
 		except Exception as e:
 			logException(e, logger, location="crawlingCallback")
+
+If you store `data` in a Mongo database, you can use [`databasetools.mongo.dictToMongoStorable`](https://github.com/hayj/DatabaseTools/blob/master/databasetools/mongo.py):
+
+	from databasetools.mongo import *
+	data = dictToMongoStorable(data)
 
 **failedCallback**: In this callback, we receive data from failed urls (`REQUEST_STATUS.<timeout|refused|duplicate|invalid|exception>`). In this example, we use a `SerializableDict` from [DataStructureTools](https://github.com/hayj/DataStructureTools) to retain all failed urls so you can synchronize failed urls accross several servers via MongoDB (see `alreadyFailedFunct` below):
 

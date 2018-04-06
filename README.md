@@ -37,6 +37,7 @@ Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't expl
 
  * **startUrls**: The first param is mandatory, it is a list of urls, or a generator (i.e. a function which yield urls) / iterator. Duplicates urls will automatically be skipped.
  * **useHTTPBrowser**: Indicate the usage of a [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py). If set as `False` (default), the crawler will use a [hjwebbrowser.browser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py) with *Selenium*.
+ * **browserParams**: Is a dict of args for [hjwebbrowser.browser.Browser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/browser.py).
  * **httpBrowserParams**: Is a dict of args for [hjwebbrowser.httpbrowser.HTTPBrowser](https://github.com/hayj/WebBrowser/blob/master/hjwebbrowser/httpbrowser.py).
  * **maxRetryFailed**: The maximum number of retries the crawler has to do for failed urls.
  * **banditRoundDuration**: The duration of a round in seconds for the bandit. At each round, the bandit will choose new params (explore or exploit).

@@ -63,8 +63,8 @@ class Crawler:
                     paramsDomain=None,
                     alpha=[0.99],
                     beta=[NormalizedLawBeta.LOG],
-                    parallelRequests=[5, 20, 50],
-                    browserCount=[50, 100],
+                    parallelRequests=[2, 3],
+                    browserCount=[5, 8],
                     banditRoundDuration=120, # in seconds
                     verbose=True,
                     logger=None,
@@ -124,6 +124,26 @@ class Crawler:
             You don't need to do this : https://blog.codeship.com/get-selenium-to-wait-for-page-load/
             sameBrowsersParallelRequestsCount: to force the browser count to be the same as the parallel request count
         """
+        # We check bandit params:
+        if not isinstance(alpha, list):
+            alpha = [alpha]
+        if not isinstance(beta, list):
+            beta = [beta]
+        if not isinstance(parallelRequests, list):
+            parallelRequests = [parallelRequests]
+        if not isinstance(browserCount, list):
+            browserCount = [browserCount]
+
+        # We have to remove elements from parallelRequests > max(browserCount)
+        maxBrowserCount = max(browserCount)
+        newParallelRequests = []
+        for current in parallelRequests:
+            if current <= maxBrowserCount:
+                newParallelRequests.append(current)
+        parallelRequests = newParallelRequests
+        if len(parallelRequests) == 0:
+            parallelRequests = [maxBrowserCount]
+
         # Domain params:
         if paramsDomain is None:
             paramsDomain = \
@@ -484,9 +504,10 @@ class Crawler:
     def initProxiesScores(self):
         # We init allScores to all ip with the timeout duration:
         allScores = {}
-        for current in self.proxies:
-            # 0.0 request duration to take this proxy at least one time:
-            allScores[current["ip"]] = [0.0]
+        if self.proxies is not None and self.useProxies:
+            for current in self.proxies:
+                # 0.0 request duration to take this proxy at least one time:
+                allScores[current["ip"]] = [0.0]
         self.proxiesScores = allScores
 
     def getScores(self):
@@ -544,6 +565,9 @@ class Crawler:
             for ip, score in scores:
                 newInstanciation.append((ip, instanciation[ip]))
             return newInstanciation
+
+        if self.proxies is None or not self.useProxies:
+            return {}
 
         # We get params:
         proxyInstanciationRate = params["proxyInstanciationRate"]

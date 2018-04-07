@@ -55,7 +55,7 @@ Each callback functions has to be passed in init parameters like we saw above.
 	def crawlingCallback(data, browser=None):
 		global logger
 		try:
-			url = data["html"]
+			url = data["url"]
 			status = data["status"]
 			# If the request succeeded, we store it in a database:
 			if status in [REQUEST_STATUS.success, REQUEST_STATUS.timeoutWithContent]:

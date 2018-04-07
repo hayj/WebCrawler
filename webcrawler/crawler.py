@@ -858,8 +858,7 @@ class Crawler:
                     for i in range(newParams["browserCount"]):
                         theThread = Thread(target=self.addBrowser, args=(None,))
                         instanciationThreads.append(theThread)
-                    instanciationThreadsChunks = chunks(instanciationThreads, cpuCount() * 2)
-                    printLTS(instanciationThreadsChunks)
+                    instanciationThreadsChunks = chunks(instanciationThreads, cpuCount() * 4)
                     for currentThreads in instanciationThreadsChunks:
                         launchAllThread(currentThreads)
 

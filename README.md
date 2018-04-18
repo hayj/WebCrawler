@@ -141,6 +141,7 @@ Use the `put` method from `Crawler`:
 
 You have to set the *multi-armed bandit* parameters in 3 parameters so the bandit can optimize these parameters for the crawler. It will explore random parameters and exploit best parameters in most cases. Each param has to be a list of values (for the bandit to choose):
 
+	# Defaults bandit parameters:
 	alpha=[0.99],
 	parallelRequests=[5, 20, 50],
 	browserCount=[50, 100],

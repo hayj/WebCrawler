@@ -66,6 +66,8 @@ Each callback functions has to be passed in init parameters like we saw above.
 		except Exception as e:
 			logException(e, logger, location="crawlingCallback")
 
+You can access the Selenium driver through `browser.driver`. If you scroll down (or other actions), you can reload the html using `browser.driver.page_source`. But it's better to use `afterAjaxSleepCallback` which is called before `crawlingCallback`. See "Others callbacks" section for more information. After using `afterAjaxSleepCallback`, you get fresh html data in `crawlingCallback`.
+
 If you store `data` in a Mongo database, you can use [`databasetools.mongo.dictToMongoStorable`](https://github.com/hayj/DatabaseTools/blob/master/databasetools/mongo.py):
 
 	from databasetools.mongo import *

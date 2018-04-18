@@ -119,6 +119,9 @@ class Crawler:
         if not isinstance(browserCount, list):
             browserCount = [browserCount]
 
+        if sameBrowsersParallelRequestsCount:
+            browserCount = parallelRequests
+
         # We have to remove elements from parallelRequests > max(browserCount)
         maxBrowserCount = max(browserCount)
         newParallelRequests = []

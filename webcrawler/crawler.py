@@ -33,12 +33,6 @@ import gc
 
 
 
-
-
-# TODO pouvoir dire tel browser prend tel lien en priorité pour respecter l'ordre du spider....
-
-# TODO piped message process + piped message with driver killing
-
 class Crawler:
     """
         The ajaxSleep param for all browser is important : you need to choose
@@ -105,6 +99,7 @@ class Crawler:
                     deleteCrawlingElement=True,
                     httpBrowserParams={},
                     browserParams={},
+                    isInvalidFunct=None,
                  ):
         """
             startUrls can be a list, an iterator or a generator
@@ -161,6 +156,7 @@ class Crawler:
         self.notUniqueUrlsGetter = notUniqueUrlsGetter
         self.failedCallback = failedCallback
         self.beforeGetCallback = beforeGetCallback
+        self.isInvalidFunct = isInvalidFunct
 
         # Memory:
         self.processing = []
@@ -194,6 +190,7 @@ class Crawler:
 
         # For the browser:
         self.browserParams = browserParams
+        self.browserParams["isInvalidFunct"] = self.isInvalidFunct
         self.browsersHeadless = browsersHeadless
         self.browsersDriverType = browsersDriverType
         if self.browsersDriverType is None:
@@ -206,8 +203,9 @@ class Crawler:
         self.browserUseFastError404Detection = browserUseFastError404Detection
 
         # If we work with an httpBrowser:
-        self.useHTTPBrowser =useHTTPBrowser
+        self.useHTTPBrowser = useHTTPBrowser
         self.httpBrowserParams = httpBrowserParams
+        self.httpBrowserParams["isInvalidFunct"] = self.isInvalidFunct
 
         # Others:
         self.deleteCrawlingElement = deleteCrawlingElement
@@ -452,6 +450,18 @@ class Crawler:
 #             print("3>>>>>>>>>>>>>>>>>>>>>> paused: " + str(self.paused))
             if self.isCrawlingElementToCrawl(crawlingElement):
                 self.queue.put(crawlingElement)
+
+    def putFail(self, crawlingElement):
+        # We convert the url:
+        crawlingElement = tryUrlToCrawlingElement(crawlingElement)
+        log("We add this url to failedUrls and remove it from alreadyCrawled: " + str(crawlingElement), self)
+        with self.queueLock:
+            if crawlingElement not in self.failedUrls:
+                self.failedUrls[crawlingElement] = 0
+            self.failedUrls[crawlingElement] += 1
+            # Now we add the url in alreadyCrawled to not crawl it again in this session:
+            if crawlingElement in self.alreadyCrawled:
+                self.alreadyCrawled.remove(crawlingElement)
 
     def fillQueue(self):
 #         print("fillQueue")

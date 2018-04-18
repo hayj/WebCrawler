@@ -156,8 +156,8 @@ You can adjust the duration of certain events, all in seconds:
 
  * **ajaxSleep**: The duration to sleep when the page is loaded. It allow to wait for Ajax elements to appear.
  * **pageLoadTimeout**: The timeout duration for each page load
- * **firstRequestSleepMin and firstRequestSleepMax**: The sleep duration of the first request of a Browser (a random value between min and max). It is useful to do not send a lot of requests in parallel when the crawler starts.
- * **allRequestsSleepMin and allRequestsSleepMax**: The same but for all requests.
+ * **firstRequestSleepMin** and **firstRequestSleepMax**: The sleep duration of the first request of a Browser (a random value between min and max). It is useful to do not send a lot of requests in parallel when the crawler starts.
+ * **allRequestsSleepMin** and **allRequestsSleepMax**: The same but for all requests.
 
 ## Others init parameters
 

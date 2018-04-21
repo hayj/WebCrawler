@@ -42,65 +42,66 @@ class Crawler:
         have to care about if there are ajax requests or not because tuhe crawling
         speed will automticaly fit the ajaxSleep param.
     """
-    def __init__(\
-                    self,
-                    startUrls,
-                    paramsDomain=None,
-                    alpha=[0.99],
-                    beta=[NormalizedLawBeta.LOG],
-                    parallelRequests=[2, 3],
-                    browserCount=[5, 8],
-                    banditRoundDuration=120, # in seconds
-                    verbose=True,
-                    logger=None,
-                    alreadyCrawledFunct=None, # For example a mongo funct
-                    alreadyFailedFunct=None, # For example a mongo funct
-                    proxiesPath=None,
-                    checkProxy=False, # This feature doesn't work
-                    useProxies=True,
-                    proxies=None,
-                    maxRetryFailed=20, # 20 is a good choice
-                    ajaxSleep=5.0, # > 3.0 for production crawl task, you need to set a lot of browsers
-                    pageLoadTimeout=25,
-                    browserDurationHistoryCount=60, # The better choice is 60
-                    queueMinSize=1000, # A good choice is 1000
-                    terminatedCallback=None, # To get failed urls when the crawler stop
-                    crawlingCallback=None,
-                    browsersVerbose=True,
-                    browsersDriverType=None,
-                    browsersHeadless=None,
-                    browserMaxDuplicatePerDomain=3,
-                    banditExploreRate=0.2,
-                    banditVerbose=True,
-                    banditParamHistoryCount=60, # Depends on the number of possible params combinason
-                    stopCrawlerAfterSeconds=1000, # best is 1000
-                    beforeAjaxSleepCallback=None,
-                    afterAjaxSleepCallback=None,
-                    failedCallback=None,
-                    # This callback will, for instance, fill a form and send it,
-                    # DO NOT catch timeout exception because the browser (which call pipCallback)
-                    # DO NOT edit the given pipedMessage
-                    # Will automatically handle this case.
-                    pipCallback=None,
-                    notUniqueUrlsGetter=None,
-                    mainThreadTimeInterval=0.5,
-                    loadImages=True,
-                    phantomjsKillPattern=".*phantomjs.*octopeek.*",
-                    chromeKillPattern=".*chrome.*",
-                    sameBrowsersParallelRequestsCount=False,
-                    beforeGetCallback=None,
-                    browserUseFastError404Detection=True,
-                    firstRequestSleepMin=0.0,
-                    firstRequestSleepMax=5.0,
-                    allRequestsSleepMin=0.0,
-                    allRequestsSleepMax=0.0,
-                    useHTTPBrowser=False,
-                    allowRestartTor=False,
-                    deleteCrawlingElement=True,
-                    httpBrowserParams={},
-                    browserParams={},
-                    isInvalidFunct=None,
-                 ):
+    def __init__\
+    (
+        self,
+        startUrls,
+        paramsDomain=None,
+        alpha=[0.99],
+        beta=[NormalizedLawBeta.LOG],
+        parallelRequests=[2, 3],
+        browserCount=[5, 8],
+        banditRoundDuration=120, # in seconds
+        verbose=True,
+        logger=None,
+        alreadyCrawledFunct=None, # For example a mongo funct
+        alreadyFailedFunct=None, # For example a mongo funct
+        proxiesPath=None,
+        checkProxy=False, # This feature doesn't work
+        useProxies=True,
+        proxies=None,
+        maxRetryFailed=20, # 20 is a good choice
+        ajaxSleep=5.0, # > 3.0 for production crawl task, you need to set a lot of browsers
+        pageLoadTimeout=25,
+        browserDurationHistoryCount=60, # The better choice is 60
+        queueMinSize=1000, # A good choice is 1000
+        terminatedCallback=None, # To get failed urls when the crawler stop
+        crawlingCallback=None,
+        browsersVerbose=True,
+        browsersDriverType=None,
+        browsersHeadless=None,
+        browserMaxDuplicatePerDomain=3,
+        banditExploreRate=0.2,
+        banditVerbose=True,
+        banditParamHistoryCount=60, # Depends on the number of possible params combinason
+        stopCrawlerAfterSeconds=1000, # best is 1000
+        beforeAjaxSleepCallback=None,
+        afterAjaxSleepCallback=None,
+        failedCallback=None,
+        # This callback will, for instance, fill a form and send it,
+        # DO NOT catch timeout exception because the browser (which call pipCallback)
+        # DO NOT edit the given pipedMessage
+        # Will automatically handle this case.
+        pipCallback=None,
+        notUniqueUrlsGetter=None,
+        mainThreadTimeInterval=0.5,
+        loadImages=True,
+        phantomjsKillPattern=".*phantomjs.*octopeek.*",
+        chromeKillPattern=".*chrome.*",
+        sameBrowsersParallelRequestsCount=False,
+        beforeGetCallback=None,
+        browserUseFastError404Detection=True,
+        firstRequestSleepMin=0.0,
+        firstRequestSleepMax=5.0,
+        allRequestsSleepMin=0.0,
+        allRequestsSleepMax=0.0,
+        useHTTPBrowser=False,
+        allowRestartTor=False,
+        deleteCrawlingElement=True,
+        httpBrowserParams={},
+        browserParams={},
+        isInvalidFunct=None,
+    ):
         """
             startUrls can be a list, an iterator or a generator
             pipCallback replace the get() function of selenium,

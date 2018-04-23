@@ -492,9 +492,10 @@ class Crawler:
                             pass
                             break
                         else:
-                            logError("Exception location: Crawler.fillQueue():", self)
-                            logError(str(e), self)
-                            print(str(type(e)))
+                            logException(e, self, location="Crawler.fillQueue()")
+#                             logError("Exception location: :", self)
+#                             logError(str(e), self)
+#                             print(str(type(e)))
 
 #     def normalizeParamsDomain(self):
 #         """

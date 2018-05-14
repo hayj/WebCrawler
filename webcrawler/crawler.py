@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from systemtools.basics import *
-from datatools.json import *
+from datatools.jsonreader import *
 from datatools.url import *
 from machinelearning.bandit import *
 from datastructuretools.setqueue import *

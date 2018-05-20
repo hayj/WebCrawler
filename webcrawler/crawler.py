@@ -469,26 +469,34 @@ class Crawler:
 
     def fillQueue(self):
         log("fillQueue", self)
+        log("queueSize: " + str(self.queue.size()), self)
         with self.cacheLock:
             with self.queueLock:
                 queueSize = self.queue.size()
+                log("queueSize: " + str(queueSize), self)
             # If the queue is too small:
             if queueSize < self.queueMinSize:
+                log("a", self)
                 # We first add failed urls to the queue:
                 # We retry all url which failed:
                 for key, value in self.failedUrls.items():
                     # We apply a max failed count and we check if the url is not actually "in retrying":
+                    log("b", self)
                     if value < self.maxRetryFailed:
+                        log("put", self)
                         # So we add this url to to tryingFailed:
                         self.put(key)
                 # Then we add urls from self.startUrls:
                 for i in range(self.queueFillCount):
+                    log("c", self)
                     try:
                         crawlingElement = next(self.startUrls)
                         crawlingElement = tryUrlToCrawlingElement(crawlingElement)
+                        log("d", self)
                         self.put(crawlingElement)
                     except Exception as e:
                         if isinstance(e, StopIteration):
+                            log("e", self)
                             pass
                             break
                         else:

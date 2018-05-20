@@ -468,7 +468,7 @@ class Crawler:
                 self.alreadyCrawled.remove(crawlingElement)
 
     def fillQueue(self):
-#         print("fillQueue")
+        log("fillQueue", self)
         with self.cacheLock:
             with self.queueLock:
                 queueSize = self.queue.size()

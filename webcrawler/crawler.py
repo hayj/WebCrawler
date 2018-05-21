@@ -78,6 +78,7 @@ class Crawler:
         beforeAjaxSleepCallback=None,
         afterAjaxSleepCallback=None,
         failedCallback=None,
+        noPipedBrowsers=True, # Piped browser are experimentals so this bool ensure it will not use
         # This callback will, for instance, fill a form and send it,
         # DO NOT catch timeout exception because the browser (which call pipCallback)
         # DO NOT edit the given pipedMessage
@@ -161,6 +162,9 @@ class Crawler:
         self.failedCallback = failedCallback
         self.beforeGetCallback = beforeGetCallback
         self.isInvalidFunct = isInvalidFunct
+
+        # Experimental piped browsers:
+        self.noPipedBrowsers = noPipedBrowsers
 
         # Memory:
         self.processing = []
@@ -314,8 +318,8 @@ class Crawler:
                                 crawlingElement = CrawlingElement(pipedMessage, type=CrawlingElement.TYPE.pipedMessage)
                             else:
                                 # But a piped browser can be in the processing, so we don't get other crawlingElement
-                                # which can produce other browsers clones bvcause it can be too much:
-                                if len(self.processing) < 1.5 * self.previousParams["browserCount"]:
+                                # which can produce other browsers clones because it can be too much:
+                                if self.noPipedBrowsers or (len(self.processing) < 1.5 * self.previousParams["browserCount"]):
                                     log("bb", self)
 #                                 if self.pipedMessageInProcessingCount() < self.previousParams["browserCount"]:
 #                                 if self.pipedMessageInProcessingCount() < self.previousParams["browserCount"] / 2:

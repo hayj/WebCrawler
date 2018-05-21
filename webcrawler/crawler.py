@@ -307,6 +307,7 @@ class Crawler:
                     # But if there are no url more, we timeout and retry fillQueue:
                     with self.cacheLock:
                         with self.queueLock:
+                            log("aa", self)
                             # First we try to get an existing pipedBrowser, it's the priority:
                             if self.hasPipedBrowser():
                                 pipedMessage = self.pipedBrowsers[0][1]
@@ -315,6 +316,7 @@ class Crawler:
                                 # But a piped browser can be in the processing, so we don't get other crawlingElement
                                 # which can produce other browsers clones bvcause it can be too much:
                                 if len(self.processing) < 1.5 * self.previousParams["browserCount"]:
+                                    log("bb", self)
 #                                 if self.pipedMessageInProcessingCount() < self.previousParams["browserCount"]:
 #                                 if self.pipedMessageInProcessingCount() < self.previousParams["browserCount"] / 2:
 #                                 if len(self.processing) < self.previousParams["browserCount"] / 2:
@@ -325,11 +327,15 @@ class Crawler:
                                             crawlingElement = CrawlingElement(crawlingElement, type=CrawlingElement.TYPE.notUniqueUrl)
                                     # Or we get url from the unique url queue:
                                     if crawlingElement is None:
+                                        log("cc", self)
                                         crawlingElement = self.queue.get(True, self.mainThreadTimeInterval)
+                                        log("dd", self)
                                         crawlingElement = tryUrlToCrawlingElement(crawlingElement)
+                                        log("ee", self)
                                 # If we have too much processing, we just sleep to prevent clonage of too much browsers:
                                 else:
                                     time.sleep(self.mainThreadTimeInterval)
+                                    log("ff", self)
 #                                     pass
                             # Here if we got a crawlingElement, we throw it to the thread crawl
                             # But here we just add the element to processing, we throw it below because we need
@@ -337,9 +343,11 @@ class Crawler:
                             if crawlingElement is not None:
                                 # We add the url in processing:
                                 self.processing.append(crawlingElement)
+                                log("gg", self)
                                 # We None the tt because we got an url:
                                 self.tt = None
                 except Exception as e:
+                    log("hh", self)
                     if isinstance(e, Empty):
                         pass
                     else:
@@ -351,16 +359,19 @@ class Crawler:
                         if self.stopCrawlerAfterSeconds is not None \
                             and self.stopCrawlerAfterSeconds > 0 \
                             and len(self.processing) == 0:
+                            log("ii", self)
                             if self.tt is None:
                                 # We init the TicToc to watch if the queue is empty for stopCrawlerAfterSeconds
                                 self.tt = TicToc()
                                 self.tt.tic(display=False)
                             # We check if the total duration since the first fail is > stopCrawlerAfterSecond and we stop:
                             elif self.tt.toc(display=False) > self.stopCrawlerAfterSeconds:
+                                log("jj", self)
                                 self.tt = None
                                 stopperThread = self.stopInThread()
                 # We crawl only if we got an url, otherwise we retry to fill the queue:
                 if crawlingElement is not None:
+                    log("kk", self)
                     self.crawl(crawlingElement)
 
     def pipedMessageInProcessingCount(self):

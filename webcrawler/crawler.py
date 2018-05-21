@@ -319,7 +319,7 @@ class Crawler:
                             else:
                                 # But a piped browser can be in the processing, so we don't get other crawlingElement
                                 # which can produce other browsers clones because it can be too much:
-                                if self.noPipedBrowsers or (len(self.processing) < 1.5 * self.previousParams["browserCount"]):
+                                if len(self.processing) < 1.5 * self.previousParams["browserCount"]: # self.noPipedBrowsers or
 #                                     log("bb", self)
 #                                 if self.pipedMessageInProcessingCount() < self.previousParams["browserCount"]:
 #                                 if self.pipedMessageInProcessingCount() < self.previousParams["browserCount"] / 2:

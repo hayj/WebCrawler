@@ -1084,7 +1084,7 @@ class Crawler:
             alreadyPassed = False
             newProcessing = []
             for current in self.processing:
-                if not alreadyPassed and crawlingElement is current:
+                if not alreadyPassed and crawlingElement == current:
                     alreadyPassed = True
                 else:
                     newProcessing.append(current)

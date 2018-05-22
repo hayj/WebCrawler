@@ -1088,7 +1088,12 @@ class Crawler:
                     alreadyPassed = True
                 else:
                     newProcessing.append(current)
+            if len(self.processing) == len(newProcessing) or not alreadyPassed:
+                logError("We didnt' find the crawling element to delete...", self)
+                logError(self.name + " " + str(crawlingElement), self)
             self.processing = newProcessing
+        else:
+            logError("The crawling element is None...", self)
 
     def htmlCallback(self, data, browser):
         """

@@ -9,7 +9,7 @@ The `WebCrawler` class exploit the [WebBrowser](https://github.com/hayj/WebBrows
 
 ## Features
 
- * Use concurrency to request web pages in parallel with multiple *Selenium* instances.
+ * Use concurrency to request web pages in parallel with multiple *Selenium* instances or http requests (through the *requests* lib).
  * Easy usage through callback functions (for events when the page is loaded, when an url failed...)
  * Auto page checking (take care of pages duplicates (with [DomainDuplicate](https://github.com/hayj/DomainDuplicate)) across pages of a same domain to detect "captcha pages" or invalid pages). It exploit all features of the [WebBrowser](https://github.com/hayj/WebBrowser) library.
  * Exploit *Selenium* (instead of *requests* for most crawler libraries like [Scrapy](https://scrapy.org/)). It makes it slower but we can execute javascript and use all *Selenium* features. *Chrome* and *PhantomJS* are both compatible.
@@ -24,7 +24,7 @@ The `WebCrawler` class exploit the [WebBrowser](https://github.com/hayj/WebBrows
 
 ## Disadvantages of classic crawling libraries
 
-Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit *Selenium* (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not fully "callback" oriented but you also need to inherit class which can be hard in separating your scrapinp / indexing code from the crawler itself.
+Some libraries ([Scrapy](https://scrapy.org/)) do Crawling well but doesn't exploit *Selenium* (or you need to [requests 2 times](https://stackoverflow.com/questions/17975471/selenium-with-scrapy-for-dynamic-page)). You can not easily [exploit multiple proxies](https://stackoverflow.com/questions/4710483/scrapy-and-proxies). And moreover it's most often not fully "callback" oriented but instead you need to inherit class which can be hard in separating your scrapinp / indexing code from the crawler itself.
 
 ## Usage
 
@@ -180,7 +180,7 @@ We consider 2 bottleneck:
  * **The proxy bandwidth**: so we automatically select best proxies at each *multi-armed bandit* round
  * **Your computer bandwidth**: so the *multi-armed bandit* will adjust the number of parallel requests and other parameters
 
-But we consider an *Ajax sleep* (when we wait for *Ajax* loading when a page was loaded) not to be a bottleneck. The main advantage of this hypothesis (which is right in most cases because you sometimes have no *Ajax* load, or it's a lot less bandwidth consumer) is that an *Ajax sleep* do not reduce the total amount of actual parallel requests (total amount of parallel requests != total amount of parallel browser in activity).
+But we consider an *Ajax sleep* (when we wait for *Ajax* loading after a page was loaded) not to be a bottleneck. The main advantage of this hypothesis (which is right in most cases because you sometimes have no *Ajax* load, or it's a lot less bandwidth consumer) is that an *Ajax sleep* do not reduce the total amount of actual parallel requests (total amount of parallel requests != total amount of parallel browser in activity).
 
 ## CrawlingElement
 

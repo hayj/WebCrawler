@@ -832,6 +832,7 @@ class Crawler:
             # We restart the tor service:
             try:
                 if self.allowRestartTor:
+                    log("aaaaaaaaaaaaaaaaaaaaaaaa", self)
                     getTorSingleton(logger=self.logger, verbose=self.verbose).restart()
             except Exception as e:
                 logException(e, self, location="nextBanditRound")

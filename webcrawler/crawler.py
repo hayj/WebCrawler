@@ -831,8 +831,8 @@ class Crawler:
                 newParams = self.bandit.nextParams(self.score)
             # We restart the tor service:
             try:
-                if torSingletonExists() and self.allowRestartTor:
-                    getTorSingleton().restart()
+                if self.allowRestartTor:
+                    getTorSingleton(logger=self.logger, verbose=self.verbose).restart()
             except Exception as e:
                 logException(e, self, location="nextBanditRound")
             # We reset the score for this new round:

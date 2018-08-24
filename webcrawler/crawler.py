@@ -252,6 +252,7 @@ class Crawler:
         self.semaphoreCount = paramsDomain["parallelRequests"][0]
 
         # Locks:
+        # print("d" * 1000)
         self.cacheLock = Lock() # with self.cacheLock:
         self.queueLock = Lock() # with self.queueLock:
         self.parallelSemaphore = None

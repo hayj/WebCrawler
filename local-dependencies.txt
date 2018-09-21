@@ -8,3 +8,5 @@ MachineLearning
 Unshortener
 Error404Detector
 HoneypotDetector
+Scroller
+NewsTools

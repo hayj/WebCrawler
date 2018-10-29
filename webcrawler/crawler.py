@@ -20,7 +20,7 @@ import sh
 import random
 import html2text
 import re
-import ipgetter
+from networktools import ipgetter
 from threading import Thread, Lock, Semaphore, active_count, BoundedSemaphore
 import math
 import numpy

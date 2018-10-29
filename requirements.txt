@@ -2,7 +2,6 @@ selenium
 sh
 readability-lxml
 html2text
-ipgetter
 hjsystemtools
 flask
 sklearn

@@ -9,3 +9,4 @@ Error404Detector
 HoneypotDetector
 Scroller
 NewsTools
+SparkTools

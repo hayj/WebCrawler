@@ -11,3 +11,4 @@ Scroller
 NewsTools
 SparkTools
 NetworkTools
+Annotator

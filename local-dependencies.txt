@@ -12,3 +12,4 @@ NewsTools
 SparkTools
 NetworkTools
 Annotator
+DatavizTools
